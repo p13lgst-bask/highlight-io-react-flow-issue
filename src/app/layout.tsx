@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { HighlightInit } from "@highlight-run/next/client";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -24,10 +25,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {children}
-      </body>
-    </html>
+    <>
+      <HighlightInit
+        projectId={process.env.NEXT_PUBLIC_HIGHLIGHT_PROJECT_ID}
+        serviceName="my-nextjs-frontend"
+        tracingOrigins
+        networkRecording={{
+          enabled: true,
+          recordHeadersAndBody: true,
+          urlBlocklist: [],
+        }}
+      />
+
+      <html lang="en">
+        <body className={`${geistSans.variable} ${geistMono.variable}`}>
+          {children}
+        </body>
+      </html>
+    </>
   );
 }
